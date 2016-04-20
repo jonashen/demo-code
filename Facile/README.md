@@ -1,6 +1,6 @@
 ## Synopsis
 
-This is an Interpretor for a simple Facile programming language.
+This is an Interpretor and Debugger for a simple Facile programming language, built with a GUI interface using the Qt framework.
 
 ## Code Example
 LET *var* *int*  | Change the value of variable *var* to the integer *int*
