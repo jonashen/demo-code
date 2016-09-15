@@ -1,0 +1,17 @@
+en:
+
+  activerecord:
+    models:
+      book: 'book'
+    attributes:
+      book:
+        id: 'id'
+        name: 'Name'
+        isbn: 'ISBN'
+        price: 'Price'
+        image: 'Image'
+        aasm_state: 'State'
+        tag_list: 'Tags'
+        category_ids: 'Category'
+        updated_at: 'updated at'
+        created_at: 'created at'

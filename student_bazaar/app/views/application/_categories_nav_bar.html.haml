@@ -1,0 +1,26 @@
+
+#categories.row
+
+  %ul#navlist
+
+    / new products
+    - if URI(request.url).path == newest_products_path
+      %li= link_to 'NEW PRODUCTS', newest_products_path, id: 'current'
+    - else
+      %li= link_to 'NEW PRODUCTS', newest_products_path
+
+    / subcategories of book
+    - Category.find_by(name: Book.to_s).children.each do |subcategory|
+      - if subcategory.id.to_s == params[:category_id]
+        %li= link_to subcategory.name.upcase, books_path(category_id: subcategory.id), id: 'current'
+      - else
+        %li= link_to subcategory.name.upcase, books_path(category_id: subcategory.id)
+
+    / others
+    - if URI(request.url).path == others_path
+      %li= link_to 'OTHERS', others_path, id: 'current'
+    - else
+      %li= link_to 'OTHERS', others_path
+
+
+%hr.separator{style: 'width: 70%'}

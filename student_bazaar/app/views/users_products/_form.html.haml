@@ -1,0 +1,13 @@
+= simple_form_for [@user, @users_product] do |f|
+  = f.simple_fields_for :product do |pf|
+    - specific = @users_product.product.specific
+    - case @users_product.product.specific
+    - when Book
+      = render 'book_form', f: pf, disabled: disabled, specific: specific
+    - when Other
+      = render 'other_form', f: pf, disabled: disabled, specific: specific
+  = f.input :price, disabled: (disabled ||f.object.auctioning?)
+  = f.input :tag_list, disabled: disabled, placeholder: 'AP chemistry, HUM II, SAT'
+  = f.input :aasm_state, as: :select, collection: [['draft', 'draft'], ['auctioning', 'auctioning']], include_blank: false, disabled: disabled
+  = f.submit :submit, class: 'btn btn-primary' unless disabled
+

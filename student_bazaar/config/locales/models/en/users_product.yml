@@ -1,0 +1,14 @@
+en:
+
+  activerecord:
+    models:
+      users_product: "user's product"
+    attributes:
+      users_product:
+        id: 'id'
+        user: 'user'
+        product: 'product'
+        aasm_state: 'state'
+        updated_at: 'updated at'
+        created_at: 'created at'
+        aasm_state: 'state'

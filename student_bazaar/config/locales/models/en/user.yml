@@ -1,0 +1,21 @@
+en:
+  activerecord:
+    errors:
+      models:
+        user:
+          blank: "please input %{attribute}"
+          invalid: "invalid"
+          attributes:
+            email:
+              email_format: "email format invalid, it should be nmhschool.org"
+  simple_form:
+    hints:
+      user:
+        #email: (please input your email)
+    placeholders:
+      user:
+        name: 'Nick Name'
+        email: Email Address
+        second_email: Alternative Email Address (optional)
+        password: Password
+        password_confirmation: Password Confirmation

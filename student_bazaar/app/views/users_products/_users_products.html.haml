@@ -1,0 +1,97 @@
+
+
+= paginate @users_products
+
+%table.table.table-striped#users_products
+  %thead
+    %tr
+      %th Name
+      %th Type
+      %th Image
+      %th Price
+      %th Buyers
+      %th State
+      %th Actions
+  %tbody
+    - @users_products.each do |user_product|
+      %tr.users_product{id: "users_product_#{user_product.id}", 'data-toggle' => "collapse", 'data-target' => "\#order_info_#{user_product.id}"}
+        %td
+          = user_product.product.name
+        %td
+          = user_product.product.as_product_type
+        %td
+          = image_tag user_product.product.image, class: 'small-book-image'
+        %td
+          = user_product.price
+        %td
+          = user_product.buyer_count
+        %td.state
+          - case user_product.aasm_state
+          - when 'finished'
+            .finished Accepted
+          - when 'rejected'
+            .rejected Rejected
+          - when 'wait_for_reply'
+            .wait_for_reply Pending
+          - else
+            = user_product.aasm_state
+        %td
+          - if can? :manage, user_product
+            - if user_product.draft? or user_product.auctioning?
+              = link_to "Edit Product", edit_user_users_product_path(current_user, user_product), class: 'btn btn-primary'
+            - if user_product.auctioning?
+              = link_to "Off-shelf", user_users_product_stop_auctioning_path(current_user, user_product), class: 'btn btn-warning off-shelf', remote: true, method: :post
+            - if user_product.wait_for_reply?
+              = link_to "Reject All", user_users_product_reject_all_path(current_user, user_product), class: 'btn btn-danger off-shelf', remote: true, method: :post
+      - if user_product.wait_for_reply? && user_product.buyer_count > 0
+        %tr.collapse{id: "order_info_#{user_product.id}"}
+          %td{colspan: 6}
+            %table{style: "width: 100%"}
+              - user_product.cart_items.joins(:cart).where(carts: {state: "success"}).each do |ci|
+                %tr{cart_item_id: "#{ci.id}"}
+                  %td{colspan: 2}
+                  %td
+                    = ci.cart.shopper.name if ci.cart.shopper
+                  %td{colspan: 2}
+                    = ci.cart.shopper.email  if ci.cart.shopper
+                  - if can? :manage, user_product
+                    %td
+                      = link_to "Accept", user_users_product_finish_order_path(current_user, user_product, params: {cart_item_id: ci.id, page: params[:page]}), method: :post, class: 'btn btn-success finish-order', remote: true
+
+
+= paginate @users_products, remote: true
+
+
+
+:javascript
+
+  (function(){
+
+    function redirect_to_create_product_page(event){
+      event.preventDefault();
+      var product_type = $('#as_product_type').val();
+
+      switch(product_type){
+        case "Book":
+          location.href = "#{new_book_path}";
+          break;
+        case "Other":
+          location.href = "#{new_other_path}";
+          break;
+      }
+    }
+
+    function showOrderInfo(event){
+      var $hoverRow = $(event.target).parent(); 
+      $('.collapse.in').not($hoverRow.next()).removeClass('in').hide();
+      $orderInfo = $($hoverRow.attr('data-target')).fadeIn().addClass('in');
+    }
+    
+    $(document).ready(function(){
+      $('input[type="submit"]').click(redirect_to_create_product_page);
+      
+      $('.users_product').hover(showOrderInfo);
+    });
+
+  
+  })();

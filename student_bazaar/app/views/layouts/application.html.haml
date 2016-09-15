@@ -1,0 +1,32 @@
+!!!
+%html
+  %head
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
+    %title Student Bazaar
+    = stylesheet_link_tag "application", media: "all"#, "data-turbolinks-track" => true
+    = javascript_include_tag "application"#, "data-turbolinks-track" => true
+    = csrf_meta_tags
+  %body
+    = render partial: "partials/notify"
+    /#top-fixed-nav-bar
+    /  = render 'top_fixed_nav_bar'
+
+    #container.container
+      #header.row.center{style: 'width: 85%; margin-left: auto; margin-right: auto;'}
+        = render 'header'
+
+      #categories-nav-bar.row
+        = render 'categories_nav_bar'
+
+      #main.row{style: 'width: 75%; margin-left: auto; margin-right: auto;'}
+        = yield
+
+      #footer.row{style: 'width: 85%; margin-left: auto; margin-right: auto;'}
+        = render 'footer'
+
+    - if content_for?(:js)
+      :javascript
+        //aasdf
+        $(document).ready(function() {
+          #{yield(:js)}
+        });

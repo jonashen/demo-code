@@ -1,0 +1,4 @@
+%p
+  =raw I18n.t(:welcome, scope: 'devise.mailer.confirmation_instructions', user: @email)
+%p=raw I18n.t(:confirmation_info, scope: 'devise.mailer.confirmation_instructions')
+%p= link_to I18n.t(:confirm_my_account, scope: 'devise.mailer.confirmation_instructions'), confirmation_url(@resource, :confirmation_token => @resource.confirmation_token)

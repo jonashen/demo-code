@@ -1,0 +1,28 @@
+.content  
+
+  = paginate @cart_items, remote: true
+
+  %table.table.table-striped#users_products
+    %tr
+      %th Image
+      %th Name
+      %th Price
+      %th Quantity
+      %th Seller
+      %th
+  
+    - @cart_items.each do |item|
+      %tr{id: "users_product_#{item.cartable_id}"}
+        %td= image_tag item.cartable.product.image, size: '120x120'
+        %td= item.cartable.product.name
+        %td= item.price
+        %td= item.quantity
+        %td= item.cartable.user.email
+        %td
+          = link_to "remove", user_remove_from_cart_path(current_user, users_product_id: item.cartable_id), class: 'btn btn-danger remove-from-cart', remote: true, method: :post
+
+  .btn-group
+    = link_to :back, books_path, class: 'btn btn-danger'
+    = link_to :checkout, user_checkout_path(current_user), class: 'btn btn-primary' unless @cart_items.count == 0
+
+  = paginate @cart_items, remote: true

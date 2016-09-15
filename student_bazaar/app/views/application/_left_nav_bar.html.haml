@@ -1,0 +1,60 @@
+
+.row
+  %ul.nav.nav-stacked
+
+    / new products
+    - if URI(request.url).path == newest_products_path
+      %li.active= link_to 'New Products', newest_products_path
+    - else  
+      %li= link_to 'New Products', newest_products_path
+
+    / products by categories
+    - Category.roots.each do |main_category|
+      - if params[:category_id].blank?
+        - if URI(request.url).path == send("#{main_category.name.downcase.pluralize}_path")
+          %li.active= link_to main_category.name, send("#{main_category.name.downcase.pluralize}_path")
+        - else
+          %li= link_to main_category.name, send("#{main_category.name.downcase.pluralize}_path")
+      - else
+        %li= link_to main_category.name, send("#{main_category.name.downcase.pluralize}_path")
+
+      / products by sub categories
+      %ul.nav.nav-stacked
+        - main_category.children.each do |sub_category|
+          - if sub_category.id.to_s == params[:category_id]
+            %li.active= link_to sub_category.name, books_path(category_id: sub_category.id)
+          - else  
+            %li= link_to sub_category.name, books_path(category_id: sub_category.id)
+
+.row
+  #cloud-tags{style: 'width: 150px; height: 150px;'}
+
+
+
+
+:javascript
+
+  (function(){
+
+    $(document).ready(function(){
+
+
+      var word_array = [];
+
+      #{
+        Tag.popular_tags_from_cache.map { |tag| "word_array[word_array.length] = {text: \"#{tag.name}\", weight: \"#{tag.count}\", link: \"#{products_search_path(tag_id: tag.id)}\"}" }.join(";\n")
+      }
+      //var word_array = [
+      //    {text: "Lorem", weight: 15},
+      //    {text: "Ipsum", weight: 9, link: "http://jquery.com/"},
+      //    {text: "Dolor", weight: 6, html: {title: "I can haz any html attribute"}},
+      //    {text: "Sit", weight: 7},
+      //    {text: "Amet", weight: 5}
+      //];
+
+      $("#cloud-tags").jQCloud(word_array);
+
+    });
+
+
+  })();  

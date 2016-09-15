@@ -1,0 +1,17 @@
+- title I18n.t("resend_confirmation_instructions", scope: "devise.titles", default: 'Resend Confirmation Instructions')
+.row
+  .col-xs-12.col-sm-8.col-md-6.col-sm-offset-2.col-md-offset-3
+    = simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), wrapper: :bootstrap3_horizontal, html: { method: :post, class: '' } ) do |f|
+      %h2
+        =h I18n.t("resend_confirmation_instructions", scope: "devise.titles", default: 'Resend Confirmation Instructions')
+      %hr.colorgraph/
+      .row
+        .col-xs-12.col-sm-12.col-md-12
+          = f.input :email, label: false, required: true, input_html: { class: 'input-lg'}
+      %hr.colorgraph/
+      .row
+        .col-xs-12.col-md-12
+          = f.button :submit, t("devise.confirmations.submit", default: 'Sign In'), class: 'btn btn-lg btn-primary btn-block'
+      %hr.colorgraph/
+      = render "devise/shared/links"
+

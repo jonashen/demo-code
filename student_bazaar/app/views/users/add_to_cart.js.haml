@@ -1,0 +1,7 @@
+=render_notification
+
+- if @user_product
+  - if @user_product.buyer_count > 10
+    $("#users_product_#{@user_product.id}").fadeOut();
+  - else
+    $("#users_product_#{@user_product.id} > td.buyer_count").text("#{@user_product.buyer_count}");

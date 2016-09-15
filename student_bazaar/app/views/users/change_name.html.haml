@@ -1,0 +1,8 @@
+= simple_form_for user, url: user_update_name_path(current_user) do |f|  
+  = f.input :email, disabled: true  
+  = f.input :name
+
+
+  %br
+  - unless disabled
+    = f.submit :submit, class: 'btn btn-primary'

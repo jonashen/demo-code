@@ -1,0 +1,12 @@
+
+- products.each_with_index do |product, index|
+
+  - if index % 3 == 0
+    .row
+      %hr
+
+  .col-xs-3.col-xs-offset-1
+    .row
+      = link_to (image_tag product.image, class: 'medium-book-image'), product.link_url
+    .row
+      = product.name

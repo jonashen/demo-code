@@ -1,0 +1,22 @@
+=render_notification
+
+
+- if @result
+
+  - if @users_product.closed?
+
+    :plain
+
+      $("#users_product_#{@users_product.id}").fadeOut(500, function() {
+        $(this).remove();
+      });
+
+  - elsif @users_product.wait_for_reply?
+
+    :plain
+
+      $("#users_product_#{@users_product.id} > td > a.off-shelf").fadeOut(500, function() {
+        $(this).remove();
+      });
+
+      $("#users_product_#{@users_product.id} > td.state").text("Pending").addClass('wait_for_reply');

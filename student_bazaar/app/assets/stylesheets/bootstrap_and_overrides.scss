@@ -1,0 +1,98 @@
+@import "bootstrap";
+@import "bootstrap-checkbox";
+@import "font-awesome";
+@import "jqcloud";
+@import "main";
+
+.photo {
+    text-align: center
+}
+
+.nav.nav-bar {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ** nav bar ** */
+.nav.nav-stacked > li > a {
+    color: gray;
+    font-size: 125%;
+}
+
+.nav.nav-stacked > li.active > a {
+
+    font-weight:bold;
+    color: rgba(255, 252, 244, 1);
+
+    /* IE10 Consumer Preview */
+    background-image: -ms-radial-gradient(center, ellipse farthest-corner, #EB8A6C 0%, #FA2D17 100%);
+    /* Mozilla Firefox */
+    background-image: -moz-radial-gradient(center, ellipse farthest-corner, #EB8A6C 0%, #FA2D17 100%);
+    /* Opera */
+    background-image: -o-radial-gradient(center, ellipse farthest-corner, #EB8A6C 0%, #FA2D17 100%);
+    /* Webkit (Safari/Chrome 10) */
+    background-image: -webkit-gradient(radial, center center, 0, center center, 497, color-stop(0, #EB8A6C), color-stop(1, #FA2D17));
+    /* Webkit (Chrome 11+) */
+    background-image: -webkit-radial-gradient(center, ellipse farthest-corner, #EB8A6C 0%, #FA2D17 100%);
+    /* W3C Markup, IE10 Release Preview */
+    background-image: radial-gradient(ellipse farthest-corner at center, #EB8A6C 0%, #FA2D17 100%);
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.nav.nav-stacked > li > a:hover {
+
+  font-weight:bold;
+  color: rgba(255, 252, 244, 1);
+
+  /* IE10 Consumer Preview */
+  background-image: -ms-radial-gradient(center, ellipse farthest-corner, #EB8A6C 0%, #FA2D17 100%);
+  /* Mozilla Firefox */
+  background-image: -moz-radial-gradient(center, ellipse farthest-corner, #EB8A6C 0%, #FA2D17 100%);
+  /* Opera */
+  background-image: -o-radial-gradient(center, ellipse farthest-corner, #EB8A6C 0%, #FA2D17 100%);
+  /* Webkit (Safari/Chrome 10) */
+  background-image: -webkit-gradient(radial, center center, 0, center center, 497, color-stop(0, #EB8A6C), color-stop(1, #FA2D17));
+  /* Webkit (Chrome 11+) */
+  background-image: -webkit-radial-gradient(center, ellipse farthest-corner, #EB8A6C 0%, #FA2D17 100%);
+  /* W3C Markup, IE10 Release Preview */
+  background-image: radial-gradient(ellipse farthest-corner at center, #EB8A6C 0%, #FA2D17 100%);
+
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+
+a.left.fa.btn.btn-primary {
+  background-color: black;
+}
+
+a.right.fa.btn.btn-primary {
+  background-color: black;
+}
+
+
+a.navbar-brand > img {
+    width: 180px;
+    height: px;
+    position: relative;
+    top: 15px;
+
+}
+
+.navbar-form {
+  margin: 25px 0;
+}
+
+.navbar-default {
+  background: transparent;
+  border: 0;
+}
+
+.navbar-toggle {
+  background-color: black;
+}

@@ -1,0 +1,4 @@
+= f.simple_fields_for :specific do |bf|
+  = bf.input :name, disabled: disabled, input_html: { value: specific.name}
+  = bf.input :description, disabled: disabled, input_html: { value: specific.description}
+  = image_tag specific.image, class: 'small-book-image'

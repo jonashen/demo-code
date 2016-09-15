@@ -1,0 +1,54 @@
+.content
+
+  = render 'search_book'
+
+  / notification and cart
+  .row
+
+  / book info
+  .row
+    .col-md-4
+      = image_tag @book.image, class: 'large-book-image'
+    .col-md-7.col-md-offset-1
+      .row.spacer
+        = @book.name
+      .row.spacer
+        = @book.isbn
+      - if AwsApi.find_book(params[:isbn])
+        .row.spacer
+          = "Amazon retail price: #{AwsApi.find_book(params[:isbn]).raw.ItemAttributes.ListPrice.FormattedPrice}"
+      .row.spacer
+        = @book.description
+
+  %hr
+
+  // sales
+  %table.table.table-hover
+    %tr
+      %th name
+      %th seller
+      %th price
+      %th buyers
+      %th
+
+    - @book.product.users_products.auctioning.order(:price_cents).page(params[:page]).each do |up|
+      %tr{id: "users_product_#{up.id}"}
+        %td
+          .row
+            .col-md-4
+              = image_tag @book.image, class: 'small-book-image'
+            .col-md-7.hidden-xs
+              .row
+                = @book.name
+        %td= up.user.name
+        %td= up.price
+        %td.buyer_count= up.buyer_count
+        %td
+          - if current_user
+            - if up.user != current_user
+              - if current_user.purchased? up
+                = link_to "Purchased", "#", remote: true, class: 'btn btn-success add-to-cart', method: :post, disabled: true
+              - else
+                = link_to "Add to cart", user_add_to_cart_path(current_user, users_product_id: up.id), remote: true, class: 'btn btn-success add-to-cart', method: :post
+          - else
+            = link_to "Add to cart", new_user_session_path(params: { redirect_url: request.url }), remote: true, class: 'btn btn-success add-to-cart'

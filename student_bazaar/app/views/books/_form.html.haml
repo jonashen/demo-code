@@ -1,0 +1,105 @@
+= simple_form_for [@book] do |f|
+  / book categories
+  #subcategories_group.control-group.select.optional
+    .control
+      = label_tag 'Sub Category'
+      = select_tag 'book[category_ids][]', options_from_collection_for_select(Category.find_by(name: Book.to_s).children, :id, :name ), class: 'select optional form-control', id: 'subcategory'
+
+  #subsubcategories_group.control-group.select.optional{style: 'display: none'}
+    .control
+      = label_tag 'Sub Sub Category'
+      = select_tag 'book[category_ids][]', options_from_collection_for_select([], :id, :name ), class: 'select optional form-control', id: 'subsubcategory'
+
+  = f.input :isbn, disabled: disabled, placeholder: "10 numbers, no hyphens", label: 'ISBN (Check <a target="_blank" href="http://www.amazon.com">Amazon</a> OR <a target="_blank" href="http://www.isbn.org/ISBN_converter">ISBN converter</a>)'.html_safe
+  = f.input :name, disabled: disabled
+  = image_tag f.object.image, size: '200x200', id: 'image_preview'
+  = f.input :image, disabled: disabled unless disabled
+
+
+  = simple_fields_for @users_product do |uf|
+    = uf.input :tag_list, placeholder: 'Ex. AP chemistry, HUM II, SAT'
+    - if @users_product.new_record?
+      = uf.input :price, input_html: { value: nil }
+    - else
+      = uf.input :price
+    = uf.input :aasm_state, as: :select, collection: [['draft', 'draft'], ['auctioning', 'auctioning']], include_blank: false
+
+  - unless disabled
+    = f.button :submit
+
+
+:javascript
+
+  (function(){
+
+    function loadSubSubCategories(categories){
+      console.log(categories);
+
+      var $subsubcategory = $('#subsubcategory')
+
+      if(categories.length > 0) {
+        $('#subsubcategories_group').fadeIn();
+        clearAndfillSelectOptions($subsubcategory, categories)
+      }
+      else {
+        $('#subsubcategories_group').hide();
+      }
+    }
+
+    function clearAndfillSelectOptions($target, options) {
+      $target.empty();
+      console.log('options.lentgh', options.length);
+      for(var i = 0; i < options.length; i++){
+        console.log('option' + i, options[i]);
+        $target.append($('<option>').attr("value", options[i].id).text(options[i].name));
+      }
+    }
+
+    function querySubCategories(event){
+      var subCategoryId = $(event.target).val();
+      url = "/categories/" + subCategoryId + "/sub_categories";
+      $.get(url, loadSubSubCategories);
+    }
+
+    function showBookInfoFromAws(book){
+      $('#book_name').val(book.title).attr('readonly', 'readonly');
+      $('#hidden_name').val(book.title);
+      $('#image_preview').attr('src', book.image_url);
+      $('#book_image').parent().hide();
+      $("#users_product_price").attr('placeholder', 'amazon price: ' + book.price);
+    }
+
+    function clearBookInfo(){
+      $('#book_name').val('').attr('readonly', false);
+      $('#book_image').parent().show();
+      $('#image_preview').attr('src', '/images/black.jpg');
+      $("#users_product_price").attr('placeholder', '');
+    }
+
+    function queryBook(event){
+      console.log('query book');
+      var isbn = $('#book_isbn').val();
+      var url = "/books/find_book_from_aws/" + isbn;
+      $.get(url, queryBookSuccess);
+    }
+
+    function queryBookSuccess(book){
+
+      $('span[class="help-block"]').remove();
+
+      console.log('book info', book);
+
+      if(book.title)
+        showBookInfoFromAws(book);
+      else
+        clearBookInfo();
+
+    }
+
+    $(document).ready(function(){
+      $('#book_isbn').on('change', queryBook);
+
+      $('#subcategory').on('change', querySubCategories);
+    });
+
+  })();

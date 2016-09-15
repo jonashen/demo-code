@@ -1,0 +1,15 @@
+
+- books.each_with_index do |book, index|
+  - if index % 3 == 0
+    .row
+      %hr
+
+  .col-xs-3.col-xs-offset-1.book
+    .row
+      = link_to (image_tag book.image, class: 'medium-book-image'), book_detail_path(book.isbn)
+    .row
+      = book.name
+    .row
+      = book.isbn
+
+

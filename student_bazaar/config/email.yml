@@ -1,0 +1,16 @@
+base: &base
+  delivery_method: :smtp
+  smtp_settings:
+    address: "mail.iscreen.com"
+    port: 25
+    authentication: :plain
+    domain: 'iscreen.com'
+
+development:
+  <<: *base
+
+test:
+  <<: *base
+
+production:
+  <<: *base

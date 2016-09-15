@@ -1,0 +1,7 @@
+user:
+  max_buyers_per_product: 10
+  expired_days_if_no_buyer: 7
+  max_purchase_count_per_day: 30
+  max_sell_count_per_day: 30
+  email:
+    domain: 'iscreen.com'

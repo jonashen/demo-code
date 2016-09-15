@@ -1,0 +1,15 @@
+%body
+
+  %h1 Purchase Notification
+
+  #message
+    %p
+      = "#{@buyer.email} would like to buy your product. Please contact with him(her)"
+  
+  #product-info
+    #name
+      = @users_product.product.name   
+    #price
+      = @users_product.price
+    #image
+      = image_tag "http://#{@host}#{@users_product.product.image}", size: '240x240'

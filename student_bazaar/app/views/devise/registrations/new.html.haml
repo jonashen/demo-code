@@ -1,0 +1,77 @@
+
+.row
+  .col-xs-12.col-sm-8.col-md-6.col-sm-offset-2.col-md-offset-3
+    = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), validate: true, wrapper: :bootstrap3_horizontal, html: { method: :post, class: '' } ) do |f|
+      %h2
+        Please Sign Up
+        -# %small It's free and always will be.
+      %hr.colorgraph/
+      .row
+        -# .col-xs-6.col-sm-6.col-md-6
+        -#   = f.input :first_name, label: false, required: true
+        -# .col-xs-6.col-sm-6.col-md-6
+        -#   = f.input :last_name, label: false, required: true
+      = f.input :email, label: false, required: true, input_html: { class: 'input-lg'}
+      .row
+        .col-xs-6.col-sm-6.col-md-6
+          = f.input :password, label: false, required: true, input_html: { class: 'input-lg'}
+        .col-xs-6.col-sm-6.col-md-6
+          = f.input :password_confirmation, label: false, required: true, input_html: { class: 'input-lg'}
+      .row
+      = f.input :second_email, label: false, required: false, input_html: { class: 'input-lg'}
+      .row
+        .col-xs-3.col-sm-3.col-md-3
+          %input{type: 'checkbox', class: 'style3'} &nbsp;&nbsp;I Agree
+        .col-xs-9.col-sm-9.col-md-9
+          By clicking
+          = succeed "," do
+            %strong.label.label-primary Create Account
+          you agree to the
+          %a{"data-target" => "#t_and_c_m", "data-toggle" => "modal", :href => "#"} Terms and Conditions
+          set out by this site, including our Cookie Use.
+      %hr.colorgraph/
+      .row
+        .col-xs-6.col-md-6
+          = f.button :submit, t("devise.registrations.submit", default: 'Create Account'), class: 'btn btn-lg btn-primary btn-block', id: 'create_account', disabled: 'disabled'
+        .col-xs-6.col-md-6
+          %a.btn.btn-success.btn-block.btn-lg{:href => "#{new_user_session_path}"} Sign In
+      %hr.colorgraph/
+      = render "devise/shared/links"
+/ Modal
+#t_and_c_m.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} ×
+        %h4#myModalLabel.modal-title Terms & Conditions
+      .modal-body
+      .modal-footer
+        %button#term.btn.btn-primary{ data: { dismiss: "modal" }, type: "button" } I Agree
+    / /.modal-content
+  / /.modal-dialog
+/ /.modal
+
+- content_for :js do
+  :plain
+    $('input[type="checkbox"].style3').checkbox({
+      buttonStyleChecked: 'btn-success',
+      checkedClass: 'fa fa-check',
+      uncheckedClass: 'fa fa-square-o',
+      'data-label': 'I Aggree',
+      'data-label-prepend': 'Test'
+    });
+
+    $('input[type="checkbox"].style3').click(function(){
+      if ($(this).is(':checked')) {
+        $("#create_account").attr('disabled', false);
+      }
+      else {
+        $("#create_account").attr('disabled', 'disabled');
+      }
+    });
+
+    $("#term").click(function(){
+      $('input[type="checkbox"].style3').click();
+    });
+
+

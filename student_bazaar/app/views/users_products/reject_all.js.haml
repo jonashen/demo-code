@@ -1,0 +1,5 @@
+=render_notification
+
+- if @users_product
+  $('.collapse.in').removeClass('in').hide();
+  $("#users_product_#{@users_product.id}").fadeOut();

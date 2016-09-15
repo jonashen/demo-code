@@ -1,0 +1,49 @@
+.content
+
+  = render 'search_other'
+
+  / notification and cart
+  .row
+
+  / book info
+  .row
+    .col-md-4
+      = image_tag @other.image, class: 'large-book-image'
+    .col-md-7.col-md-offset-1
+      .row.spacer
+        = @other.name
+      .row.spacer
+        = @other.description
+
+  %hr
+
+  // sales
+  %table.table.table-hover
+    %tr
+      %th name
+      %th seller
+      %th price
+      %th buyers
+      %th
+
+    - @other.product.users_products.auctioning.page(params[:page]).each do |up|
+      %tr{id: "users_product_#{up.id}"}
+        %td
+          .row
+            .col-md-4
+              = image_tag @other.image, class: 'small-book-image'
+            .col-md-7.hidden-xs
+              .row
+                = @other.name
+        %td= up.user.name
+        %td= up.price
+        %td.buyer_count= up.buyer_count
+        %td
+          - if current_user
+            - if up.user != current_user
+              - if current_user.purchased? up
+                = link_to "purchased", "#", remote: true, class: 'btn btn-success add-to-cart', method: :post, disabled: true
+              - else
+                = link_to "add to cart", user_add_to_cart_path(current_user, users_product_id: up.id), remote: true, class: 'btn btn-success add-to-cart', method: :post
+          - else
+            = link_to "add to cart", new_user_session_path(params: { redirect_url: request.url }), remote: true, class: 'btn btn-success add-to-cart'

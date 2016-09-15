@@ -1,0 +1,4 @@
+= f.simple_fields_for :specific do |bf|
+  = bf.input :isbn, disabled: true, input_html: { value: specific.isbn}
+  = bf.input :name, disabled: true, input_html: { value: specific.name}  
+  = image_tag specific.image, size: '180x180'

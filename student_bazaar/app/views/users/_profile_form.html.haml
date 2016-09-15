@@ -1,0 +1,10 @@
+= simple_form_for user, url: '#' do |f|  
+  = f.input :email, disabled: true  
+  = f.input :name, disabled: disabled
+  - unless disabled
+    = f.input :password, disabled: true  
+    = f.input :password_confirmation, disabled: true   
+  = f.input :current_sign_in_at, as: :string, disabled: true
+  = f.input :current_sign_in_ip, disabled: true
+  = f.input :last_sign_in_at, as: :string, disabled: true
+  = f.input :last_sign_in_ip, disabled: true

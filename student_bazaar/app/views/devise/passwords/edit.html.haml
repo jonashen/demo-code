@@ -1,0 +1,16 @@
+- title I18n.t("change_password", scope: "devise.titles", default: 'Change Password')
+
+.row
+  .col-md-4.col-md-offset-4
+    .login-panel.panel.panel-default
+      .panel-heading
+        .panel-title=h I18n.t("change_password", scope: "devise.titles")
+      .panel-body
+        = simple_form_for(resource, as: resource_name, url: password_path(resource_name), validate: true, wrapper: :bootstrap3_horizontal, html: { method: :put, class: 'form-horizontal' } ) do |f|
+          = f.full_error :reset_password_token
+          .fieldset
+            = f.input :reset_password_token, as: :hidden
+            = f.input :password, label: false, required: true
+            = f.input :password_confirmation, label: false, required: true
+            = f.button :submit, t("devise.confirm", default: 'Confirm'), class: 'btn btn-lg btn-success btn-block'
+        = render "users/shared/links"

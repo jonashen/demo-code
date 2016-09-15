@@ -1,0 +1,24 @@
+= simple_form_for [@other] do |f|
+
+  = f.input :name, disabled: disabled
+  = image_tag f.object.image, id: 'image_preview', class: 'small-book-image'
+  = f.input :image, disabled: disabled unless disabled
+  = f.input :description, disabled: disabled
+
+  = simple_fields_for @users_product do |uf|
+    = uf.input :tag_list, placeholder: 'Ex. AP chemistry, HUM II, SAT'
+    - if @users_product.new_record?
+      = uf.input :price, input_html: { value: nil }
+    - else
+      = uf.input :price
+    = uf.input :aasm_state, as: :select, collection: [['draft', 'draft'], ['auctioning', 'auctioning']], include_blank: false
+
+  - unless disabled
+    = f.button :submit
+
+
+:javascript
+
+  (function(){
+
+  })();

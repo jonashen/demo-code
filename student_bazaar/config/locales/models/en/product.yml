@@ -1,0 +1,12 @@
+en:
+
+  activerecord:
+    models:
+      product: 'product'
+    attributes:
+      product:
+        id: 'id'
+        name: 'name'
+        as_product_type: 'product type'
+        updated_at: 'updated at'
+        created_at: 'created at'

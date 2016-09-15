@@ -1,0 +1,22 @@
+
+.row
+  .col-xs-12.col-sm-8.col-md-6.col-sm-offset-2.col-md-offset-3
+    = simple_form_for(resource, as: resource_name, url: user_session_path(params: {redirect_to: params[:redirect_to], command: params[:command]}), wrapper: :bootstrap3_horizontal, html: { method: :post, class: '' } ) do |f|
+      %h2
+        Please Sign In
+      %hr.colorgraph/
+      .row
+        -# .col-xs-6.col-sm-6.col-md-6
+        -#   = f.input :first_name, label: false, required: true
+        -# .col-xs-6.col-sm-6.col-md-6
+        -#   = f.input :last_name, label: false, required: true
+        .col-xs-12.col-sm-12.col-md-12
+          = f.input :email, label: false, required: true, input_html: { class: 'input-lg'}, placeholder: 'student@example.com'
+          = f.input :password, label: false, required: true, input_html: { class: 'input-lg'}
+      %hr.colorgraph/
+      .row
+        .col-xs-12.col-md-12
+          = f.button :submit, t("devise.sign_in.submit", default: 'Sign In'), class: 'btn btn-lg btn-primary btn-block'
+      %hr.colorgraph/
+      = render "devise/shared/links", redirect_url: params[:redirect_to]
+

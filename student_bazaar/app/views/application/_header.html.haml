@@ -1,0 +1,78 @@
+%nav.navbar.navbar-default{:role => "navigation"}
+/ Brand and toggle get grouped for better mobile display
+.navbar-header
+  %button.navbar-toggle{"data-target" => "#bs-example-navbar-collapse-1", "data-toggle" => "collapse", :type => "button"}
+    %span.sr-only Toggle navigation
+    %span.icon-bar
+    %span.icon-bar
+    %span.icon-bar
+  .hidden-xs= link_to image_tag('images/logo.jpg'), root_path, class: 'navbar-brand'
+  .col-xs-12.hidden-sm.hidden-md.hidden-lg{style: 'width: auto; height: 100px;'}= link_to image_tag('images/logo.jpg'), root_path
+
+/ Collect the nav links, forms, and other content for toggling
+#bs-example-navbar-collapse-1.collapse.collapse.navbar-collapse{style: 'float:left'}
+  %ul.nav.navbar-nav
+  = form_tag products_search_path, method: :get, class: 'navbar-form navbar-left', style: 'display: inline;'
+  .form-group
+    = autocomplete_field_tag 'search_all', '', products_search_path, class: 'form-control', placeholder: 'Search for products...', id: 'search_all', value: params[:search_all], size: '40%'
+  %button.btn.btn-default{:type => "submit"} Search
+  - if current_user
+    %form.navbar-form{:role => "profile"}
+      .btn-group
+        %a.btn.btn-warning#buy-now{href: "#{books_path}"}
+          Buy
+        %a.btn.btn-danger#sell-now{href: "#{user_users_products_path(current_user)}"}
+          Sell
+        %button.btn.btn-info.dropdown-toggle{'data-toggle' => 'dropdown'}
+          = "Settings (#{current_user.name})"
+          %span.caret
+        %ul.dropdown-menu{role: 'menu'}
+          %li= link_to 'Show your profile', user_show_profile_path(current_user)
+          /%li= link_to 'Change your name', user_change_name_path(current_user)
+          %li= link_to 'Change your password', user_change_password_path(current_user)
+          %li.divider
+          %li= link_to 'Check your listed products', user_users_products_path(current_user)
+          %li.divider
+          %li= link_to 'Check your shopping history', user_show_shopping_histories_path(current_user)
+          %li= link_to 'Check your shopping cart', user_show_cart_path(current_user)
+          %li.divider
+          %li= link_to "Sign out (#{current_user.email})", destroy_user_session_path, method: :delete
+        - if current_user
+          %a{href: "#{user_show_cart_path(current_user)}"}
+            %span.glyphicon.glyphicon-shopping-cart{style: "font-size: 1.4em; position:relative; left: 10px; top: 5px; color: #424242"}
+  - else
+    %form.navbar-form.navbar-right{:role => "profile"}
+      .btn-group
+        %a.btn.btn-warning#buy-now{href: "#{new_user_session_path(params: {redirect_to: books_path})}"}
+          Buy
+        %a.btn.btn-danger#sell-now{href: "#{new_user_session_path(params: {command: 'sell-now'})}"}
+          Sell
+        %a.btn.btn-primary{href: "#{new_user_session_path(params: {redirect_to: request.url})}"}
+          Sign In
+
+:javascript
+
+  (function(){
+
+    $(document).ready(function(){
+      $("#search_all").autocomplete({ html: true });
+    });
+
+    $('#buy-now').qtip({
+      content: "#{current_user ? 'Search for products and add them to your cart!' : 'Search for products and add them to your cart after signing in!'}",
+      style: {
+        classes: 'qtip-bootstrap'
+      }
+    });
+
+    $('#sell-now').qtip({
+      content: "#{current_user ? 'Upload your own products!' : 'Upload your own products after signing in!'}",
+      style: {
+        classes: 'qtip-bootstrap'
+      }
+    });
+
+  })();
+
+
+

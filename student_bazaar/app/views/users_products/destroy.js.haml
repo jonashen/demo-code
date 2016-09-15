@@ -1,0 +1,6 @@
+- if @product.specific.destroyed?
+  :plain
+    $("#product_#{@product.id}").fadeOut(500, function() {
+      $(this).remove();
+    }); 
+=render_notification 

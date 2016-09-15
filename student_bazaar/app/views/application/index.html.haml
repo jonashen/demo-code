@@ -1,0 +1,87 @@
+.row.hidden-sm.hidden-xs
+  - if Product.popular_products.count > 0
+    .col-md-9
+      %h3{style: 'position: relative; left: 70px; top: -20px'}
+        POPULAR PRODUCTS
+
+.row.hidden-sm.hidden-xs
+  .col-sm-1
+    - if Product.popular_products.count > 4
+      .controls.pull-right.hidden-xs.hidden-sm
+        %a.left.fa.fa-chevron-left.btn.btn-primary{"data-slide" => "prev", :href => "#carousel-example-generic"}
+
+  #carousel-example-generic.carousel.slide.hidden-xs.col-sm-10{"data-ride" => "carousel"}
+    / Wrapper for slides
+    .carousel-inner
+
+      .item.active
+        .row
+          - Product.popular_products[0..3].each do |product|
+            .col-sm-12.col-md-3
+              .col-item
+                .photo
+                  = link_to image_tag(product.image, class: 'product-image'), product.link_url
+        .row
+          .col-md-12.red-sep-line.text-center
+            Check out some products currently on the market!
+
+      - if Product.popular_products.count > 4
+        .item
+          .row
+            - Product.popular_products[4..7].each do |product|
+              .col-sm-12.col-md-3
+                .col-item
+                  .photo
+                    = link_to image_tag(product.image, class: 'product-image'), product.link_url
+            .row
+              .col-md-12.red-sep-line.text-center
+                Check out some products currently on the market!
+
+  .col-sm-1{style: 'margin: auto'}
+    - if Product.popular_products.count > 4
+      .controls.pull-right.hidden-xs.hidden-sm
+        %a.right.fa.fa-chevron-right.btn.btn-primary{"data-slide" => "next", :href => "#carousel-example-generic"}
+
+%hr.separator.hidden-sm.hidden-xs
+
+.row
+  .col-md-8.hidden-sm.hidden-xs
+    - Product.random_products(6).each_with_index do |product, index|
+      - if index % 3 == 0 and index > 0
+        .row.spacer
+      .col-md-4
+        = link_to image_tag(product.image, class: 'small-product-image', ), product.link_url
+  .col-md-4.col-sm-12
+    .row.spacer
+      .col-md-12.topic=HomepageTopic.get_topic.sub_topic_on_left
+      .col-md-12.topic-content=HomepageTopic.get_topic.sub_topic_content_on_left
+      .col-md-12q
+      /  %hr.spacer.separator
+    .row.spacer
+      .col-md-12.topic=HomepageTopic.get_topic.sub_topic_on_right
+      .col-md-12.topic-content=HomepageTopic.get_topic.sub_topic_content_on_right
+      /.col-md-12
+      /  %hr.spacer.separator
+    .row.hidden-sm.hidden-xs
+      #cloud-tags.col-md-12{style: 'width: 100%; height: 220px;'}
+
+
+
+:javascript
+
+  (function(){
+
+    $(document).ready(function(){
+
+
+      var word_array = [];
+
+      #{
+        Tag.popular_tags_from_cache.map { |tag| "word_array[word_array.length] = {text: \"#{tag.name}\", weight: \"#{tag.count}\", link: \"#{products_search_path(tag_id: tag.id)}\"}" }.join(";\n")
+      }
+
+      $("#cloud-tags").jQCloud(word_array);
+
+    });
+
+  })();

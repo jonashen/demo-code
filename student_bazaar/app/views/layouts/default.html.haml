@@ -1,0 +1,19 @@
+!!!
+%html
+  %head
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
+    %title Student Bazaar
+    = stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
+    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = csrf_meta_tags
+  %body
+    .container
+      = render partial: "partials/notify"
+      .row
+        = yield
+    - if content_for?(:js)
+      :javascript
+        //aasdf
+        $(document).ready(function() {
+          #{yield(:js)}
+        });

@@ -1,0 +1,51 @@
+.content
+
+  / Button trigger modal
+  %a.btn.btn-primary{"data-toggle" => "modal", :href => "#myModal", id: "upload-product"} Upload Product
+  / Modal
+  #myModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+    .modal-dialog
+      .modal-content
+        = simple_form_for [@user, @user.users_products.build] do |f|
+          .modal-header
+            %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} &times;
+            %h4.modal-title Please select product type
+          .modal-body
+            /= f.input :as_product_type, collection: [['book', 'Book']], include_blank: false
+            = select_tag :as_product_type, options_for_select([['book', 'Book'], ['other', 'Other']]), class: 'form-control'
+          .modal-footer
+            %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancel
+            = f.button :submit
+  %br
+
+  - if @user.users_products.count == 0
+    %br
+    %p{style: 'font-size: 120%;'}
+      please click 'Upload Product' button to create your first product
+  - else
+    = render 'users_products'
+
+
+
+:javascript
+
+    function redirect_to_create_page(event){
+      event.preventDefault();
+      var product_type = $('#as_product_type').val();
+      switch(product_type) {
+        case 'Book':
+          location.href = "#{new_book_path}";
+          break;
+        case 'Other':
+          location.href = "#{new_other_path}";
+          break;
+      }
+    }
+
+  $(document).ready(function(){
+
+
+
+    $('input[type="submit"]').click(redirect_to_create_page)
+
+  });

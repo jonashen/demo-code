@@ -1,0 +1,34 @@
+.row
+  %fieldset.border
+    %legend.border
+      = "TransactionID: #{history.id}"
+  
+    %table.table.table-striped
+      %tr
+        %th State
+        %th Product
+        %th Price
+        %th Seller
+        %th Date Sent
+        
+
+      - history.cart_items.each do |cart_item|
+        %tr
+          %td
+            - case cart_item.state
+            - when 'purchased'
+              .finished Accepted
+            - when 'failure'
+              .rejected Rejected
+            - when 'processing'
+              .wait_for_reply Pending
+            - else
+              = cart_item.state
+          %td
+            = cart_item.cartable.product.name
+          %td
+            = cart_item.cartable.price
+          %td
+            = cart_item.cartable.user.name
+          %td
+            = cart_item.cart.sent_at.to_formatted_s(:long)

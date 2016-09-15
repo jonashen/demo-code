@@ -1,0 +1,8 @@
+
+#shopping_histories
+  = paginate @shopping_histories, remote: true
+  
+  - @shopping_histories.each do |history|
+    = render 'shopping_history', history: history
+  
+  = paginate @shopping_histories, remote: true  
